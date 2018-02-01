@@ -11,8 +11,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.*;
 
 public class Connessione_server {
 
@@ -27,7 +26,9 @@ public class Connessione_server {
         ServerSocket sSocket = null;
         //oggetto da usare per realizzare la connessione TCP
         Socket connection;
-
+        
+        GregorianCalendar gc = new GregorianCalendar(); //calendario 
+        
         while(true){
             try{
                 // il server si mette in ascolto sulla porta voluta
@@ -43,7 +44,10 @@ public class Connessione_server {
                 in = new DataInputStream(connection.getInputStream());
                 out = new DataOutputStream(connection.getOutputStream());
     
-    System.out.println("Client:" + in.readUTF());
+                System.out.println("Client:" + in.readUTF());
+                out.writeUTF("Ecco la data:" + gc.get(Calendar.DAY_OF_MONTH) +"/" + (gc.get(Calendar.MONTH) + 1) + "/" + gc.get(Calendar.YEAR) + "");
+                out.flush(); //mando il messaggio svuotando il buffer
+                
             }
                catch(IOException e){
                    System.err.println("Errore di I/O!");
